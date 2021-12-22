@@ -46,21 +46,9 @@ enable_sdm660_stm_events()
         return
     fi
 
-    KernelVersionStr=`cat /proc/sys/kernel/osrelease`
-    KernelVersionS=${KernelVersionStr:2:2}
-    KernelVersionA=${KernelVersionStr:0:1}
-    KernelVersionB=${KernelVersionS%.*}
-
-    if [ $KernelVersionA -ge 4 ] && [ $KernelVersionB -ge 19 ]; then
-        echo 0x2000000 > /sys/bus/coresight/devices/coresight-tmc-etr/buffer_size
-        echo 1 > /sys/bus/coresight/devices/coresight-tmc-etr/enable_sink
-        echo 1 > /sys/bus/coresight/devices/coresight-stm/enable_source
-    else
-        echo 0x2000000 > /sys/bus/coresight/devices/coresight-tmc-etr/mem_size
-        echo 1 > /sys/bus/coresight/devices/coresight-tmc-etr/curr_sink
-        echo 1 > /sys/bus/coresight/devices/coresight-stm/enable
-    fi
-
+    echo 0x2000000 > /sys/bus/coresight/devices/coresight-tmc-etr/mem_size
+    echo 1 > /sys/bus/coresight/devices/coresight-tmc-etr/curr_sink
+    echo 1 > /sys/bus/coresight/devices/coresight-stm/enable
     echo 1 > /sys/kernel/debug/tracing/tracing_on
     echo 0 > /sys/bus/coresight/devices/coresight-stm/hwevent_enable
     # timer
